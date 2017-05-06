@@ -1,0 +1,64 @@
+extends ../layout
+
+block content
+	div
+		h3 Pratos
+	div
+				a(href="/pratos/create/#{id}") 
+					| 
+					|Cadastrar Novo Prato
+				| &nbsp;
+				a(id="submit", href="/restaurantes")  
+					| 
+					|Cancelar
+								
+	hr
+	br
+	div
+		if messages.erro
+			span
+				p #{messages.erro}
+			br
+		if messages.info
+			span
+				p #{messages.info}
+			br
+		if lista.length > 0
+			table(id="tabela")
+				thead
+					tr
+						th Prato
+						th Preço
+						th Excluir
+				tbody
+					each valor in lista
+						tr
+							td #{valor.prato}
+							td #{valor.preco}
+							td
+								button
+									a(href="javascript: Excluir('#{valor._id}', '#{id}');") Excluir
+		else
+			p Não existe dados cadastrados
+block scripts			
+	script(type="text/javascript").
+		function Excluir(prato, restaurante){
+			var pergunta = confirm('Deseja realmente excluir?');
+			if(pergunta){
+				$.ajax({
+					url: '/pratos/delete/'+prato+'/'+restaurante,
+					dataType: 'json',
+					type: 'POST',
+					statusCode: {
+						200: function(data){
+							alert(data);
+							window.location.reload();
+						},
+						400: function(data){
+							alert(data);
+						}
+					}
+				});
+			}
+		}
+

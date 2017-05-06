@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+	div
+		h3 Cadastro de Restaurantes
+		if messages.erro
+			span
+				each msg in messages.erro
+					span= msg
+					br
+		form(method="POST", action="/restaurantes/create")
+			fieldset
+				legend Dados 
+				br
+				label(class="sr-only") Nome do Restaurante
+				input(type="text", placeholder="Nome do Restaurante", name="nome", value="#{rest.nome || ''}", autofocus, required)
+				button(type="submit")
+					| 
+					|Salvar
+		a(id="submit", href="/restaurantes")
+			| 
+			|Cancelar
+	

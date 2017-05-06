@@ -1,0 +1,51 @@
+extends ../layout
+
+block content
+	div(class="container-fluid")
+		div(class="row")
+			div(class="col-xs-12 col-md-12 col-sm-12")
+				div(class="page-header")
+					h3 Cadastro de Pratos
+	div(class="container")
+		div(class="row")
+			div(class="col-xs-12 col-md-12 col-sm-12")
+				if messages.erro
+					div(class="alert alert-danger", role="alert")
+						button(type="button", class="close", data-dismiss="alert", aria-label="Close")
+							span(aria-hidden="true") | &times;
+						span
+							each msg in messages.erro
+								span= msg
+								br
+					br
+				form(class="form-horizontal", method="POST", action="/pratos/create/#{id}", role="form")
+					fieldset
+						legend Dados
+						div(class="form-group col-xs-12 col-sm-12 col-md-12")
+							label(class="sr-only") Nome do Prato
+							div(class="input-group")
+								div(class="input-group-addon")
+									span(class="glyphicon glyphicon-glass")
+								input(type="text", class="form-control", name="pratos[prato]", value="#{model.prato || ''}" placeholder="Prato", required)
+						div(class="form-group col-xs-12 col-sm-12 col-md-12")
+							label(class="sr-only") Preço
+							div(class="input-group")
+								div(class="input-group-addon")
+									span(class="glyphicon glyphicon-usd")
+								input(type="text", class="form-control preco", name="pratos[preco]", value="#{model.preco || ''}" placeholder="Preco", required)
+						div(class="form-group form-inline")
+							div(class="col-xs-12 col-sm-12 col-md-12 ")
+								button(class="btn btn-success create", type="submit") 
+									span(class="glyphicon glyphicon-plus") 
+									| 
+									|Salvar
+				a(class="btn btn-danger", id="submit", href="/pratos") 
+					span(class="glyphicon glyphicon-repeat") 
+					| 
+					|Cancelar
+block scripts
+	script(src="/js/mask-plugin.min.js")
+	script(type="text/javascript").
+		$(function(){
+			$('.preco').mask('000.000.000.000.000,00', {reverse: true});
+		});

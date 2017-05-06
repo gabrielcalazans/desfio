@@ -1,0 +1,58 @@
+extends ../layout
+
+block content
+	h3 Restaurantes
+	form(class="form-horizontal", method="post", action="/restaurantes")
+		fieldset
+			legend Filtros
+				label Nome
+				input(type="text", name="nome", placeholder="Nome")
+				button(class="btn btn-primary") 
+					| 
+					|Pesquisar
+	a(class="btn btn-success", href="/restaurantes/create") 
+						| 
+						|Cadastrar Novo Restaurante
+								
+	hr
+	br
+	div
+		if messages.erro
+			button(type="button", class="close", data-dismiss="alert", aria-label="Close")
+				span(aria-hidden="true") 
+				| &times;
+			span
+				p #{messages.erro}
+		br
+		if messages.info
+			span
+				p #{messages.info}
+		br
+		if lista.length > 0
+			table
+				thead
+					tr
+						th Excluir
+						th Editar
+						th Restaurantes
+						th Cadastrar Pratos
+				tbody
+					each valor in lista
+						tr
+							td
+								form(method="post", action="/restaurantes/delete/#{valor._id}", class="frmDel")
+									button(type="submit") Deletar
+							td
+								form(method="get" action="/restaurantes/edit/#{valor._id}")
+									button(type="submit") Editar
+							td #{valor.nome}
+							td 
+								form(method="get" action="/pratos/#{valor._id}")
+									button(type="submit") Cadastrar Pratos
+									
+		else
+			div
+				p Não existe dados cadastrados
+block scripts			
+
+
